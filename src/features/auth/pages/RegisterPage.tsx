@@ -20,6 +20,10 @@ const RegisterPage = () => {
     resolver: zodResolver(registerFormSchema),
   });
 
+  const handleRegisterSubmit = () => {
+    console.log('ya')
+  }
+
   return (
     <PageContainer>
       <SectionContainer minFullscreen className="justify-center">
@@ -35,7 +39,7 @@ const RegisterPage = () => {
             <Form {...form}>
               <RegisterFormInner
                 // isLoading={registerUserIsPending}
-                // onRegisterSubmit={handleRegisterSubmit}
+                onRegisterSubmit={handleRegisterSubmit}
                 showPassword
               />
             </Form>

@@ -20,6 +20,10 @@ const LoginPage = () => {
     resolver: zodResolver(registerFormSchema),
   });
 
+   const handleLoginSubmit = () => {
+    console.log('ya')
+  }
+
   return (
     <PageContainer>
       <SectionContainer minFullscreen className="justify-center">
@@ -33,7 +37,7 @@ const LoginPage = () => {
           <CardContent>
             <Form {...form}>
               <RegisterFormInner
-                // onRegisterSubmit={handleLoginSubmit}
+                onRegisterSubmit={handleLoginSubmit}
                 buttonText="Masuk"
               />
             </Form>
