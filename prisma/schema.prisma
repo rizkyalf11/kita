@@ -1,20 +1,67 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model Profile {
+    id       String  @id @db.Uuid
+    username String  @unique
+    email    String  @unique
+    nickname String?
+    bio      String?
+    avatar   String?
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    posts    Post[]
+    comments Comment[]
+    likes    Like[]
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id             String  @id @default(uuid()) @db.Uuid
+    user_id        String  @db.Uuid
+    images         String
+    description    String?
+    likes_count    Int     @default(0)
+    comments_count Int     @default(0)
 
-    @@index([name])
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    profile  Profile   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    comments Comment[]
+    likes    Like[]
+}
+
+model Comment {
+    id      String @id @default(uuid()) @db.Uuid
+    post_id String @db.Uuid
+    user_id String @db.Uuid
+    content String
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    author Profile @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    post   Post    @relation(fields: [post_id], references: [id], onDelete: Cascade)
+}
+
+model Like {
+    id      String @id @default(uuid()) @db.Uuid
+    post_id String @db.Uuid
+    user_id String @db.Uuid
+
+    created_at DateTime @default(now())
+
+    user Profile @relation(fields: [user_id], references: [id], onDelete: Cascade)
+    post Post    @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+    @@unique([post_id, user_id], name: "unique_like_post_user")
 }
