@@ -43,6 +43,8 @@ export const authRouter = createTRPCRouter({
               username: generatedUsername,
             },
           });
+
+          await supabaseAdminClient.auth.admin.inviteUserByEmail(email)
         } catch (error) {
           if (userId != "") {
             await supabaseAdminClient.auth.admin.deleteUser(userId);
