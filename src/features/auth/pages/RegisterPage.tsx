@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "sonner";
 import { PageContainer } from "~/components/layout/PageContainer";
 import { SectionContainer } from "~/components/layout/SectionContainer";
 import { Button } from "~/components/ui/button";
@@ -12,6 +13,7 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import { Form } from "~/components/ui/form";
+import { api } from "~/utils/api";
 import { RegisterFormInner } from "../components/RegisterFormInner";
 import { registerFormSchema, type RegisterFormSchema } from "../forms/register";
 
@@ -20,9 +22,30 @@ const RegisterPage = () => {
     resolver: zodResolver(registerFormSchema),
   });
 
-  const handleRegisterSubmit = () => {
-    console.log('ya')
-  }
+  const { mutate: mutateRegister, isPending: isPendingRegister } =
+    api.auth.register.useMutation({
+      onSuccess: () => {
+        toast.success("Berhasil buat akun!");
+        form.setValue("email", "");
+        form.setValue("password", "");
+      },
+      onError: (err) => {
+        console.log(err.message);
+
+        switch (err.message) {
+          case "A user with this email address has already been registered":
+            toast.error("Email sudah digunakan");
+            form.setError("email", { message: "Email sudah digunakan!" });
+            break;
+          default:
+            toast.success("Ada kesalahan, coba lagi nanti");
+        }
+      },
+    });
+
+  const handleRegisterSubmit = (values: RegisterFormSchema) => {
+    mutateRegister(values);
+  };
 
   return (
     <PageContainer withFooter>
@@ -38,7 +61,7 @@ const RegisterPage = () => {
           <CardContent>
             <Form {...form}>
               <RegisterFormInner
-                // isLoading={registerUserIsPending}
+                isLoading={isPendingRegister}
                 onRegisterSubmit={handleRegisterSubmit}
                 showPassword
               />
