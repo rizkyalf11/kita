@@ -17,7 +17,7 @@ const ProfilePage = () => {
   return (
     <AuthRoute>
       <PageContainer>
-        <SectionContainer>
+        <SectionContainer minFullscreen="withoutOffset">
           <div className="flex w-full justify-between py-2 lg:py-4">
             <h1 className="text-primary text-xl font-semibold tracking-tight lg:text-2xl">
               @username
