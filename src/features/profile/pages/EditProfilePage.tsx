@@ -45,7 +45,10 @@ const EditProfilePage: NextPageWithLayout = () => {
 
   const apiUtils = api.useUtils();
 
-  const updateProfilePicture = api.profile.updateProfilePicture.useMutation({
+  const {
+    mutate: updateProfilePicture,
+    isPending: isPendingUpdateProfilePicture,
+  } = api.profile.updateProfilePicture.useMutation({
     onSuccess: async () => {
       toast.success("Berhasil ganti poto profile");
       setPreviewUrlForCropper(null);
@@ -108,7 +111,7 @@ const EditProfilePage: NextPageWithLayout = () => {
         const result = reader.result as string;
         const imageBase64 = result.substring(result.indexOf(",") + 1);
 
-        updateProfilePicture.mutate(imageBase64);
+        updateProfilePicture(imageBase64);
         console.log(imageBase64);
       };
 
@@ -213,7 +216,11 @@ const EditProfilePage: NextPageWithLayout = () => {
                 </Button>
               </div>
               <div className="text-center">
-                {finalProfilePictureSrc ? (
+                {isPendingUpdateProfilePicture ? (
+                  <Button variant="link" className="text-primary">
+                    Loading...
+                  </Button>
+                ) : finalProfilePictureSrc ? (
                   <div className="flex items-center">
                     <Button
                       onClick={handleRemoveProfilePicture}
