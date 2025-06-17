@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { api } from "~/utils/api";
 import LoadingSkeleton from "../components/LoadingSkeleton";
+import { LogoutAlert } from "../components/LogoutAlert";
 
 const ProfilePage = () => {
   const { data: getProfileData, isPending } = api.profile.getProfile.useQuery();
@@ -33,7 +34,7 @@ const ProfilePage = () => {
             </h1>
 
             <Button size="icon" variant="ghost">
-              <LogOut />
+              <LogoutAlert />
             </Button>
           </div>
 
