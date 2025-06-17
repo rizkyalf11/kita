@@ -1,4 +1,5 @@
-import { LogOut } from "lucide-react"
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/router";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,10 +10,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "~/components/ui/alert-dialog"
-import { Button } from "~/components/ui/button"
+} from "~/components/ui/alert-dialog";
+import { Button } from "~/components/ui/button";
+import { supabase } from "~/lib/supabase/client";
 
 export function LogoutAlert() {
+  const router = useRouter();
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    await router.replace("/login");
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -28,10 +36,10 @@ export function LogoutAlert() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Keluar</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleLogout}>Keluar</AlertDialogCancel>
           <AlertDialogAction>Batal</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

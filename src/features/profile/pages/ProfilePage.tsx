@@ -9,9 +9,11 @@ import { Separator } from "~/components/ui/separator";
 import { api } from "~/utils/api";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import { LogoutAlert } from "../components/LogoutAlert";
+import { useRouter } from "next/router";
 
 const ProfilePage = () => {
   const { data: getProfileData, isPending } = api.profile.getProfile.useQuery();
+  const router = useRouter();
 
   const posts = Array.from({ length: 11 }, (_, i) => ({
     id: i + 1,
@@ -91,7 +93,7 @@ const ProfilePage = () => {
               </p>
             </div>
 
-            <Button className="w-full" variant="outline">
+            <Button onClick={() => router.replace("/profile/edit")} className="w-full" variant="outline">
               Edit profile
             </Button>
           </div>
