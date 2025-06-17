@@ -7,22 +7,24 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const { setTheme } = useTheme();
+  const router = useRouter();
 
   return (
     <div className="bg-card text-card-foreground fixed right-1/2 bottom-3 flex translate-x-1/2 items-center gap-1 rounded-xl border px-2 py-2 shadow-sm lg:bottom-10">
-      <Button size="icon" className="size-10 lg:size-12" variant="ghost">
+      <Button onClick={() => router.replace("/")} size="icon" className="size-10 lg:size-12" variant="ghost">
         <Home />
       </Button>
-      <Button size="icon" className="size-10 lg:size-12" variant="ghost">
+      <Button onClick={() => router.replace("/")} size="icon" className="size-10 lg:size-12" variant="ghost">
         <Search />
       </Button>
-      <Button size="icon" className="size-10 lg:size-12" variant="ghost">
+      <Button onClick={() => router.replace("/")} size="icon" className="size-10 lg:size-12" variant="ghost">
         <SquarePlus />
       </Button>
-      <Button size="icon" className="size-10 lg:size-12" variant="ghost">
+      <Button onClick={() => router.replace("/profile")} size="icon" className="size-10 lg:size-12" variant="ghost">
         <User />
       </Button>
       <div className="bg-border h-[30px] w-[1.5px]" />

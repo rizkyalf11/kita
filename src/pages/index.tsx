@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { AuthRoute } from "~/components/layout/AuthRoute";
 import { PageContainer } from "~/components/layout/PageContainer";
 import { SectionContainer } from "~/components/layout/SectionContainer";
 import { Button } from "~/components/ui/button";
@@ -25,17 +26,19 @@ export default function Home() {
   const handleLogOut = async () => {
     await supabase.auth.signOut();
     toast("Anda telah keluar");
-    setIsLogin(false)
+    setIsLogin(false);
   };
 
   return (
-    <PageContainer>
-      <SectionContainer>
-        {isLogin && <Button onClick={handleLogOut}>Keluar</Button>}
-        {!isLogin && (
-          <Button onClick={() => router.replace("/login")}>Masuk</Button>
-        )}
-      </SectionContainer>
-    </PageContainer>
+    <AuthRoute>
+      <PageContainer>
+        <SectionContainer>
+          {isLogin && <Button onClick={handleLogOut}>Keluar</Button>}
+          {!isLogin && (
+            <Button onClick={() => router.replace("/login")}>Masuk</Button>
+          )}
+        </SectionContainer>
+      </PageContainer>
+    </AuthRoute>
   );
 }
