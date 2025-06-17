@@ -1,11 +1,13 @@
 import { Grid3x2, Settings } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { AuthRoute } from "~/components/layout/AuthRoute";
 import { PageContainer } from "~/components/layout/PageContainer";
 import { SectionContainer } from "~/components/layout/SectionContainer";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
+import { Skeleton } from "~/components/ui/skeleton";
 
 const ProfilePage = () => {
   const posts = Array.from({ length: 11 }, (_, i) => ({
@@ -14,6 +16,78 @@ const ProfilePage = () => {
     likes: Math.floor(Math.random() * 1000) + 100,
     comments: Math.floor(Math.random() * 50) + 5,
   }));
+
+  const ProfileSkeleton = () => (
+    <div className="mx-auto min-h-screen max-w-screen-lg bg-white">
+      {/* Header Skeleton */}
+      <div className="flex items-center justify-between border-b border-gray-100 p-4">
+        <Skeleton className="h-6 w-24" />
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-6 w-6" />
+        </div>
+      </div>
+
+      {/* Profile Info Skeleton */}
+      <div className="p-4">
+        <div className="mb-4 flex items-start space-x-4">
+          {/* Avatar Skeleton */}
+          <Skeleton className="h-20 w-20 rounded-full" />
+
+          {/* Stats Skeleton */}
+          <div className="flex-1">
+            <div className="flex justify-around text-center">
+              {[1, 2, 3].map((i) => (
+                <div key={i}>
+                  <Skeleton className="mb-1 h-5 w-8" />
+                  <Skeleton className="h-3 w-12" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Name and Bio Skeleton */}
+        <div className="mb-4">
+          <Skeleton className="mb-2 h-4 w-32" />
+          <Skeleton className="mb-1 h-3 w-full" />
+          <Skeleton className="mb-1 h-3 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
+        </div>
+
+        {/* Edit Profile Button Skeleton */}
+        <Skeleton className="h-8 w-full" />
+      </div>
+
+      {/* Posts Header Skeleton */}
+      <div className="flex border-t border-gray-100">
+        <div className="flex flex-1 items-center justify-start py-3">
+          <Skeleton className="h-6 w-6" />
+        </div>
+      </div>
+
+      {/* Posts Grid Skeleton */}
+      <div className="grid grid-cols-3 gap-0.5 bg-gray-100">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <Skeleton key={i} className="aspect-square rounded-none border" />
+        ))}
+      </div>
+    </div>
+  );
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
+
   return (
     <AuthRoute>
       <PageContainer>
