@@ -1,7 +1,4 @@
-import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Button } from "~/components/ui/button";
-import { Checkbox } from "~/components/ui/checkbox";
 import {
   FormControl,
   FormDescription,
@@ -11,25 +8,14 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import type { EditProfileFormSchema } from "../forms/editProfileSchema";
 import { Textarea } from "~/components/ui/textarea";
+import type { EditProfileFormSchema } from "../forms/editProfileSchema";
 
-type EditProfileFormInnerProps = {
-  onRegisterSubmit: (values: EditProfileFormSchema) => void;
-  isLoading?: boolean;
-  buttonText?: string;
-  showPassword?: boolean;
-};
-
-export const EditProfileFormInner = (props: EditProfileFormInnerProps) => {
+export const EditProfileFormInner = () => {
   const form = useFormContext<EditProfileFormSchema>();
 
   return (
-    <form
-      onSubmit={form.handleSubmit(props.onRegisterSubmit)}
-      className="flex flex-col gap-y-4"
-    >
+    <form className="flex flex-col gap-y-4">
       <FormField
         control={form.control}
         name="username"
@@ -79,10 +65,6 @@ export const EditProfileFormInner = (props: EditProfileFormInnerProps) => {
           </FormItem>
         )}
       />
-
-      <Button disabled={props.isLoading} className="mt-4 w-full">
-        {props.buttonText ?? "Simpan Perubahan"}
-      </Button>
     </form>
   );
 };

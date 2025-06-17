@@ -1,9 +1,9 @@
-import React from 'react'
-import { Skeleton } from '~/components/ui/skeleton'
+import React from "react";
+import { Skeleton } from "~/components/ui/skeleton";
 
 const LoadingSkeleton = () => {
   return (
-     <div className="mx-auto min-h-screen max-w-screen-lg bg-white">
+    <div className="mx-auto min-h-screen max-w-screen-lg bg-background">
       <div className="flex items-center justify-between border-b border-gray-100 p-4">
         <Skeleton className="h-6 w-24" />
         <div className="flex items-center space-x-4">
@@ -49,7 +49,7 @@ const LoadingSkeleton = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoadingSkeleton
+export default LoadingSkeleton;
