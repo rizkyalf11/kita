@@ -64,7 +64,9 @@ const EditProfilePage = () => {
 
         <div>
           <Form {...form}>
-            <EditProfileFormInner onRegisterSubmit={() => {}} />
+            <EditProfileFormInner onRegisterSubmit={() => {
+              console.log('')
+            }} />
           </Form>
         </div>
 
