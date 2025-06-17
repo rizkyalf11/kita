@@ -20,8 +20,10 @@ import { supabase } from "~/lib/supabase/client";
 import { RegisterFormInner } from "../components/RegisterFormInner";
 import { registerFormSchema, type RegisterFormSchema } from "../forms/register";
 import { GuestRoute } from "~/components/layout/GuestRoute";
+import type { NextPageWithLayout } from "~/lib/types/layout";
+import AuthLayout from "~/components/layout/AuthLayout";
 
-const LoginPage = () => {
+const LoginPage: NextPageWithLayout = () => {
   const form = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormSchema),
   });
@@ -32,7 +34,7 @@ const LoginPage = () => {
     console.log("ya");
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
@@ -102,4 +104,5 @@ const LoginPage = () => {
   );
 };
 
+LoginPage.getLayout = (page) => <AuthLayout>{page}</AuthLayout>
 export default LoginPage;

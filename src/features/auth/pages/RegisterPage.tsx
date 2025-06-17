@@ -17,8 +17,10 @@ import { api } from "~/utils/api";
 import { RegisterFormInner } from "../components/RegisterFormInner";
 import { registerFormSchema, type RegisterFormSchema } from "../forms/register";
 import { GuestRoute } from "~/components/layout/GuestRoute";
+import type { NextPageWithLayout } from "~/lib/types/layout";
+import AuthLayout from "~/components/layout/AuthLayout";
 
-const RegisterPage = () => {
+const RegisterPage: NextPageWithLayout = () => {
   const form = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormSchema),
   });
@@ -97,4 +99,5 @@ const RegisterPage = () => {
   );
 };
 
+RegisterPage.getLayout = (page) => <AuthLayout>{page}</AuthLayout>
 export default RegisterPage;
